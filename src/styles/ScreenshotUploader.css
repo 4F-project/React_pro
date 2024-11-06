@@ -1,0 +1,177 @@
+body {
+  margin: 0; /* 기본 마진 제거 */
+  height: 100vh; /* 전체 높이 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #a6c8e0, #d6b0e2); /* 전체 배경 그라데이션 - 연한 색상으로 변경 */
+}
+
+.uploader-container {
+  padding: 20px; /* 패딩을 늘림 */
+  width: 1000px; /* 너비 추가 */
+  height: 900px; /* 높이를 자동으로 설정 */
+  align-items: center; /* 중앙 정렬 */
+  position: relative; /* 자식 요소의 절대 위치 설정을 위해 추가 */
+  background: rgba(255, 255, 255, 0.85); /* 반투명 흰색 배경을 약간 어두운 색으로 변경 */
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* 그림자 강도를 낮춤 */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* 자식 요소가 컨테이너를 넘지 않도록 설정 */
+}
+
+
+.uploader-container:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강도 증가 */
+}
+
+.file-input {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #d0e0e0; /* 연한 회색 테두리로 변경 */
+  transition: border-color 0.3s ease;
+  display: none; /* 기본 파일 입력 숨김 */
+}
+
+.file-label {
+  display: inline-block;
+  padding: 12px 24px; /* 패딩 조정 */
+  background: linear-gradient(90deg, #6bb9e2, #4ed6a0); /* 버튼 그라데이션 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 애니메이션 효과 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* 그림자 추가 */
+}
+
+.file-label:active {
+  transform: translateY(1px); /* 클릭 시 눌리는 효과 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 감소 */
+}
+
+.file-label:hover {
+  background: linear-gradient(90deg, #4ed6a0, #6bb9e2); /* 호버 시 색상 변화 */
+  transform: translateY(-2px); /* 호버 시 살짝 올라가는 효과 */
+}
+
+.upload-button {
+  display: inline-block; /* 버튼을 인라인 블록으로 설정 */
+  padding: 12px 24px; /* 패딩 설정 */
+  background: linear-gradient(90deg, #6bb9e2, #4ed6a0); /* 버튼 그라데이션 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 애니메이션 효과 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* 그림자 추가 */
+  position: absolute; /* 절대 위치로 설정 */
+  bottom: 20px; /* 하단에서 20px 간격 */
+  left: 50%; /* 중앙 정렬을 위해 왼쪽 50% */
+  transform: translateX(-50%); /* 중앙 정렬 보정 */
+}
+
+.upload-button:hover {
+  background: linear-gradient(90deg, #6bb9e2, #4ed6a0); /* 호버 시 색상 변화 */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강도 증가 */
+  transform: translate(-50%, -2px); /* 호버 시 살짝 올라가는 효과 */
+}
+
+.upload-button:active {
+  transform: translate(-50%, 1px); /* 클릭 시 눌리는 효과 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 감소 */
+}
+
+.image-preview-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row; /* 가로 방향으로 정렬 */
+  justify-content: center; /* 가운데 정렬 */
+  overflow-x: auto; /* 가로 스크롤 가능하도록 설정 */
+}
+
+.image-preview {
+  display: flex; /* Flexbox로 설정하여 이미지 크기에 맞게 조정 */
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 이미지 미리보기 그림자 추가 */
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* 페이드 인 애니메이션 */
+}
+
+@keyframes fadeIn {
+  to {
+      opacity: 1;
+  }
+}
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* 이미지 간의 간격 */
+  max-height: calc(900px - 100px); /* 컨테이너 높이에서 다른 요소의 높이를 뺀 값 */
+  overflow-y: auto; /* 세로 스크롤 가능 */
+}
+
+
+.image-box {
+  width: 100px; /* 이미지 박스의 너비 */
+  height: 100px; /* 이미지 박스의 높이 */
+  overflow: hidden; /* 박스를 넘치는 이미지 숨기기 */
+  border: 1px solid #ccc; /* 박스 테두리 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9; /* 배경색 */
+}
+
+.preview-image {
+  max-width: 100%; /* 이미지의 최대 너비 */
+  max-height: 100%; /* 이미지의 최대 높이 */
+  object-fit: cover; /* 비율에 맞게 잘라내기 */
+}
+
+
+.image-preview:hover .preview-image {
+  transform: scale(1.05); /* 마우스 오버 시 이미지 확대 */
+}
+
+.class-group {
+  margin: 20px 0;
+}
+
+.class-images {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.class-image {
+  margin: 10px;
+  text-align: center;
+}
+
+.preview-image {
+  width: 100px; /* 이미지 크기 조정 */
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.uploader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
